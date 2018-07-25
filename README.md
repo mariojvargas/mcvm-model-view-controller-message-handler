@@ -26,7 +26,7 @@ The [FluentValidation](https://www.nuget.org/packages/FluentValidation/) package
 
 ## Running This Demo
 
-This demo's template was created using the .NET Core CLI. [Visual Studio Code](https://code.visualstudio.com/) was used as the preferred editor of choice.
+This demo's template was created using the .NET Core CLI's `dotnet new webapi` template. [Visual Studio Code](https://code.visualstudio.com/) was used as the preferred editor of choice.
 
 You should be able to open, build and run this project using [Microsoft Visual Studio](https://visualstudio.microsoft.com/), but be aware that you will need .NET Core 2.1 installed, as indicated above. A solution file has been added to this project.
 
