@@ -23,3 +23,38 @@ Original `TodoController` code can be found at [https://github.com/aspnet/Docs/b
 See [TodoApiMediaR.Demo.Api.csproj](TodoMediatR.Demo.Api/TodoApiMediatR.Demo.Api.csproj) for additional helper packages being used.
 
 The [FluentValidation](https://www.nuget.org/packages/FluentValidation/) package is recommended for creating strongly-typed validation rules. This package plays well with the use of MediatR. Integration with `FluentValidation` is not included in this demo.
+
+## Running This Demo
+
+This demo's template was created using the .NET Core CLI. [Visual Studio Code](https://code.visualstudio.com/) was used as the preferred editor of choice.
+
+You should be able to open, build and run this project using [Microsoft Visual Studio](https://visualstudio.microsoft.com/), but be aware that you will need .NET Core 2.1 installed, as indicated above. A solution file has been added to this project.
+
+### From the .NET CLI
+
+From the project's root, execute the following command:
+
+```bash
+$ dotnet run --project TodoMediatR.Demo.Api
+
+...
+Hosting environment: Production
+Content root path: /Users/someone/repos/mcvm-model-view-controller-message-handler/TodoMediatR.Demo.Api
+Now listening on: http://localhost:5000
+Now listening on: https://localhost:5001
+Application started. Press Ctrl+C to shut down.
+```
+
+The application is served under the following URLs:
+
+* http://localhost:5000/api/todos/
+* https://localhost:5001/api/todos/
+
+## Disclaimer
+
+This project's goal is to demonstrate the feasibility of using the Mediator Pattern along with MVC. In no way is it trying to promote its approaches as "best practices".
+
+## License
+
+This code is licensed using the [MIT License](LICENSE).
+
