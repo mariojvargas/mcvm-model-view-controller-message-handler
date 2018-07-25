@@ -30,6 +30,7 @@ namespace TodoApiMediatR.Demo.Api
         {
             services.AddDbContext<TodoDbContext>(options => options.UseInMemoryDatabase("TodoList"));
 
+            services.AddLogging(config => config.AddConsole());
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
