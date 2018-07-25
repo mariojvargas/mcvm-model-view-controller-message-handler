@@ -15,12 +15,10 @@ namespace TodoApiMediatR.Demo.Api.Controllers
     [ApiController]
     public class TodosController : ControllerBase
     {
-        private readonly TodoDbContext _context;
         private IMediator _mediator;
 
-        public TodosController(TodoDbContext context, IMediator mediator)
+        public TodosController(IMediator mediator)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
