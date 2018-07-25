@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using TodoApiMediatR.Demo.Api.Infrastructure.Data;
+using AutoMapper;
 
 namespace TodoApiMediatR.Demo.Api
 {
@@ -31,8 +32,14 @@ namespace TodoApiMediatR.Demo.Api
             services.AddDbContext<TodoDbContext>(options => options.UseInMemoryDatabase("TodoList"));
 
             services.AddLogging(config => config.AddConsole());
-            services.AddMediatR(typeof(Startup).Assembly);
+
+            var currentAssembly = typeof(Startup).Assembly;
+            services.AddMediatR(currentAssembly);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // See: https://github.com/AutoMapper/AutoMapper.Extensions.Microsoft.DependencyInjection
+            services.AddAutoMapper(currentAssembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

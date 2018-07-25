@@ -6,33 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
 using TodoApiMediatR.Demo.Api.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using MediatR;
-using TodoApiMediatR.Demo.Api.Features.Todos;
 
 namespace TodoApiMediatR.Demo.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TodosController : ControllerBase
+    public class TodosWithoutMediatRController : ControllerBase
     {
         private readonly TodoDbContext _context;
-        private IMediator _mediator;
 
-        public TodosController(TodoDbContext context, IMediator mediator)
+        public TodosWithoutMediatRController(TodoDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTodos([FromQuery]ListAll.Query query)
+        public async Task<IActionResult> GetAllTodos()
         {
-            var todoItems = await _mediator.Send(query);
+            var todoItems = await _context.TodoItem.ToListAsync();
 
             return Ok(todoItems);
         }
 
-        [HttpGet("{id}", Name = "GetTodoById")]
+        [HttpGet("{id}", Name = "GetNoMediatorTodoById")]
         public async Task<IActionResult> GetById(long id)
         {
             var item = await _context.TodoItem.FindAsync(id);
@@ -55,7 +51,7 @@ namespace TodoApiMediatR.Demo.Api.Controllers
             _context.TodoItem.Add(item);
             await _context.SaveChangesAsync();
 
-            return CreatedAtRoute("GetTodoById", new { id = item.Id }, item);
+            return CreatedAtRoute("GetNoMediatorTodoById", new { id = item.Id }, item);
         }
 
         // If you've never implemented the HTTP PATCH method, be advised that it's a recommended practice.
