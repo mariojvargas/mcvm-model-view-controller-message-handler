@@ -14,6 +14,7 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
     {
         public class Query : IRequest<IEnumerable<TodoListItemDto>>
         {
+            public override string ToString() => "{}";
         }
 
         public class QueryHandler : IRequestHandler<Query, IEnumerable<TodoListItemDto>>

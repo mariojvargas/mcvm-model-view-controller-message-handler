@@ -49,15 +49,14 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateItem([FromBody] TodoItem item)
+        public async Task<IActionResult> CreateItem([FromBody] CreateItem.Command command)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TodoItem.Add(item);
-            await _context.SaveChangesAsync();
+            var item = await _mediator.Send(command);
 
             return CreatedAtRoute("GetTodoById", new { id = item.Id }, item);
         }
