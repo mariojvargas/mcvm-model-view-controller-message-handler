@@ -25,7 +25,7 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTodos([FromQuery]ListAll.Query query)
+        public async Task<IActionResult> GetAllTodos([FromQuery] ListAll.Query query)
         {
             var todoItems = await _mediator.Send(query);
 
@@ -35,7 +35,11 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         [HttpGet("{id}", Name = "GetTodoById")]
         public async Task<IActionResult> GetById(long id)
         {
-            var item = await _context.TodoItem.FindAsync(id);
+            var item = await _mediator.Send(new GetItemById.Query
+            {
+                Id = id
+            });
+
             if (item == null)
             {
                 return NotFound();
