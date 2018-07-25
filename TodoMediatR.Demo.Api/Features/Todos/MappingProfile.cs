@@ -32,6 +32,16 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 .ForMember(destination => destination.Name, options => options.MapFrom(source => source.Name))
                 .ForMember(destination => destination.IsComplete, options => options.MapFrom(source => source.IsComplete))
                 ;
+
+            CreateMap<UpdateItem.Command, TodoItem>()
+                .ForMember(destination => destination.Id, options => options.MapFrom(source => source.Id))
+                .ForMember(destination => destination.Name, options => options.MapFrom(source => source.Dto.Name))
+                .ForMember(destination => destination.IsComplete, options => options.MapFrom(source => source.Dto.IsComplete))
+                ;
+            CreateMap<TodoItem, ConfirmedUpdatedTodoItemDto>()
+                .ForMember(destination => destination.Name, options => options.MapFrom(source => source.Name))
+                .ForMember(destination => destination.IsComplete, options => options.MapFrom(source => source.IsComplete))
+                ;
         }
     }
 }

@@ -15,11 +15,6 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
         public class Query : IRequest<TodoItemDto>
         {
             public long Id { get; set; }
-
-            // public override string ToString()
-            // {
-            //     return $"{{Id = {Id}}}";
-            // }
         }
 
         public class QueryHandler : IRequestHandler<Query, TodoItemDto>
@@ -36,6 +31,9 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
             public async Task<TodoItemDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var entity = await _context.TodoItem.SingleOrDefaultAsync(item => item.Id == request.Id);
+
+                // See: https://stackoverflow.com/questions/36856073/the-instance-of-entity-type-cannot-be-tracked-because-another-instance-of-this-t
+                _context.Entry(entity).State = EntityState.Detached;
 
                 return _mapper.Map<TodoItemDto>(entity);
             }

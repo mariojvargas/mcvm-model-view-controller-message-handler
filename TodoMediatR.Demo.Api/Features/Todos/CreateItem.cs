@@ -22,7 +22,7 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
         public class CommandHandler : IRequestHandler<Command, CreatedTodoItemDto>
         {
             private readonly TodoDbContext _context;
-            private IMapper _mapper;
+            private readonly IMapper _mapper;
 
             public CommandHandler(TodoDbContext context, IMapper mapper)
             {
