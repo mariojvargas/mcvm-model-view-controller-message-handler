@@ -27,6 +27,11 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 .ForMember(destination => destination.Name, options => options.MapFrom(source => source.Name))
                 .ForMember(destination => destination.IsComplete, options => options.MapFrom(source => source.IsComplete))
                 ;
+
+            CreateMap<TodoItem, DeletedTodoItemDto>()
+                .ForMember(destination => destination.Name, options => options.MapFrom(source => source.Name))
+                .ForMember(destination => destination.IsComplete, options => options.MapFrom(source => source.IsComplete))
+                ;
         }
     }
 }

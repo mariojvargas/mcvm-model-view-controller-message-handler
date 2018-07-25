@@ -92,14 +92,15 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(long id)
         {
-            var itemToDelete = await _context.TodoItem.FindAsync(id);
-            if (itemToDelete == null)
+            var deletedItemDto = await _mediator.Send(new DeleteItem.Query
+            {
+                Id = id
+            });
+
+            if (deletedItemDto == null)
             {
                 return NotFound();
             }
-
-            _context.TodoItem.Remove(itemToDelete);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
