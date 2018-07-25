@@ -1,14 +1,14 @@
-# MVCM: Model View Controller + Message Handler
+# MVCM: Model View Controller + Service Mediator
 
-This is an attempt at proposing the use of the Mediator Pattern as a good practice for decoupling MVC/API controllers from other domain logic in order to adhere to the [Single Reponsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) and achieve greater [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns). The new acronym I am proposing is simply "MVCM". As a disclaimer, it has nothing to do with my initials. :-)
+This is an attempt at proposing the use of the Mediator Pattern as a good practice for decoupling MVC/API controllers from other domain logic in order to adhere to the [Single Reponsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) and achieve greater [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns). The new acronym I am proposing is simply "MVCM". In full disclosure, it has nothing to do with my initials. :-)
 
-I considered other terms, such as "Mediated MVC", "Messaging-Based Model View Controller (MMVC)", etc., but the expanded term used in the title above makes the intention clearer--or so I think. The reason for using the phrase "Message Handler" over "Mediator" is that, at its root, the Mediator Design Pattern is a messaging mechanism. The "+" sign in the above title implies that it's an optional design decision for simpler projects, but you can easily transition to it if the need arises. My recommendation is to use the pattern for both simple and large projects.
+I considered other terms, such as "Mediated MVC", "Messaging-Based Model View Controller (MMVC)", "Model View Controller + Message Handler", "Model View Controller + Mediator", etc., but the expanded term used in the title above makes the intention clearer--or so I think. I was almost settled for the term "Model View Controller + Message Handler", but after doing additional research, I was reminded that there are Message Handlers already in MVC, but they serve a different purpose. The reason for using the phrase *"Service Mediator"* over "Mediator" is that, at its root, the Mediator Design Pattern is a messaging mechanism that helps to decouple a component from direct communication with dependencies, such as services, domain services, repositories, DbContexts, etc. The word "Service" is a way to encompass all of these dependencies in a typical enterprise application. The "+" sign in the above title implies that it's an optional design *methodology* for simpler projects, but you can easily transition to it if the need arises. My recommendation is to apply this design methodology for both simple and large projects.
 
-Using the Mediator Pattern has its drawbacks. One of them can be clearly seen in the implementation of the HTTP PATCH method in the [TodosController.cs](TodoMediatR.Demo.Api/Controllers/TodosController.cs) file. [See this somewhat relevant discussion](https://softwareengineering.stackexchange.com/questions/352796/is-cqrs-mediatr-worth-it-when-developing-an-asp-net-application) about the worthiness of using the CQRS pattern and MediatR.
+Using the Mediator Pattern has its drawbacks. One of them can be clearly seen in my implementation of the HTTP PATCH method in the [TodosController.cs](TodoMediatR.Demo.Api/Controllers/TodosController.cs) file. There is a lot going on there, but I think it's a shortcoming in the design of the JsonPatch API in .NET Core. In addition, [see this somewhat relevant discussion](https://softwareengineering.stackexchange.com/questions/352796/is-cqrs-mediatr-worth-it-when-developing-an-asp-net-application) about the worthiness of using the [CQRS pattern](https://martinfowler.com/bliki/CQRS.html) and MediatR. And now that I mention CQRS, the file and naming convention used in this project under the [Features](TodoMediatR.Demo.Api/Features) directory are inspired by the CQRS pattern.
 
 ## REST API Demo using MediatR
 
-The sample project in this repository is a demonstration of using the MediatR Nuget package with the classic TODO App, which lets you easily implement the Mediator Design Pattern in MVC.
+The sample project in this repository is a demonstration of using the MediatR Nuget package with the classic TODO App, which lets you easily integrate the Mediator Design Pattern in an MVC application.
 
 Original `TodoController` code can be found at [https://github.com/aspnet/Docs/blob/master/aspnetcore/tutorials/first-web-api/samples/2.1/TodoApi/Controllers/TodoController.cs](https://github.com/aspnet/Docs/blob/master/aspnetcore/tutorials/first-web-api/samples/2.1/TodoApi/Controllers/TodoController.cs), which is part of a tutorial on ASP.NET Core 2.1 found at the following URL: [https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc?view=aspnetcore-2.1](https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc?view=aspnetcore-2.1).
 
@@ -52,7 +52,7 @@ The application is served under the following URLs:
 
 ## Disclaimer
 
-This project's goal is to demonstrate the feasibility of using the Mediator Pattern along with MVC. In no way is it trying to promote its approaches as "best practices".
+This project's goal is to demonstrate the feasibility of using the Mediator Pattern along with MVC. In no way is it trying to promote its project structure, naming conventions, as "best practices". However, the file structure used for listing out the MediatR queries and handlers is a suggested approach that one of my mentors introduced to me and that I have used in large scale applications.
 
 ## License
 
