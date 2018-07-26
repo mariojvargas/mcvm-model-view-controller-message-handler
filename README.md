@@ -50,6 +50,20 @@ The application is served under the following URLs:
 * http://localhost:5000/api/todos/
 * https://localhost:5001/api/todos/
 
+## Additional Resources
+Here are some resources for learning more about MediatR and how to apply it in MVC.
+
+* [MediatR](https://github.com/jbogard/MediatR)
+* For easily registering MediatR as a service in .NET Core: [MediatR.Extensions.Microsoft.DependencyInjection](https://www.nuget.org/packages/MediatR.Extensions.Microsoft.DependencyInjection/)
+* [CQRS With MediatR and AutoMapper](https://lostechies.com/jimmybogard/2015/05/05/cqrs-with-mediatr-and-automapper/)
+* (Microsoft) [Implementing the microservice application layer using the Web API](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/microservice-application-layer-implementation-web-api)
+
+### Dated but still useful resources
+
+* [Put your controllers on a diet: GETs and queries](https://lostechies.com/jimmybogard/2013/10/29/put-your-controllers-on-a-diet-gets-and-queries/)
+* [Put your controllers on a diet: POSTs and commands](https://lostechies.com/jimmybogard/2013/12/19/put-your-controllers-on-a-diet-posts-and-commands/)
+* [Feature Folders in ASP.NET MVC](http://timgthomas.com/2013/10/feature-folders-in-asp-net-mvc/)
+
 ## Disclaimer
 
 This project's goal is to demonstrate the feasibility of using the Mediator Pattern along with MVC. In no way is it trying to promote its project structure, naming conventions, as "best practices". However, the file structure used for listing out the MediatR queries and handlers is a suggested approach that one of my mentors introduced to me and that I have used in large scale applications.
@@ -57,4 +71,3 @@ This project's goal is to demonstrate the feasibility of using the Mediator Patt
 ## License
 
 This code is licensed using the [MIT License](LICENSE).
-
