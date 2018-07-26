@@ -31,12 +31,9 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         }
 
         [HttpGet("{id}", Name = "GetTodoById")]
-        public async Task<IActionResult> GetById(long id)
+        public async Task<IActionResult> GetById([FromRoute] GetItemById.Query query)
         {
-            var item = await _mediator.Send(new GetItemById.Query
-            {
-                Id = id
-            });
+            var item = await _mediator.Send(query);
 
             if (item == null)
             {
@@ -134,12 +131,9 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItem(long id)
+        public async Task<IActionResult> DeleteItem([FromRoute] DeleteItem.Query query)
         {
-            var deletedItemDto = await _mediator.Send(new DeleteItem.Query
-            {
-                Id = id
-            });
+            var deletedItemDto = await _mediator.Send(query);
 
             if (deletedItemDto == null)
             {
