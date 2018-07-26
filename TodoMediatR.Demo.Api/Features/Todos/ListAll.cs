@@ -12,12 +12,19 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
 {
     public class ListAll
     {
-        public class Query : IRequest<IEnumerable<TodoListItemDto>>
+        public class Query : IRequest<IEnumerable<Result>>
         {
             public override string ToString() => "{}";
         }
 
-        public class QueryHandler : IRequestHandler<Query, IEnumerable<TodoListItemDto>>
+        public class Result
+        {
+            public long Id { get; set; }
+            public string Name { get; set; }
+            public bool IsComplete { get; set; }
+        }
+
+        public class QueryHandler : IRequestHandler<Query, IEnumerable<Result>>
         {
             private readonly TodoDbContext _context;
             private IConfigurationProvider _mappingConfigurationProvider;
@@ -28,17 +35,10 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 _mappingConfigurationProvider = mappingConfigurationProvider ?? throw new ArgumentNullException(nameof(mappingConfigurationProvider));
             }
 
-            public async Task<IEnumerable<TodoListItemDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Result>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.TodoItem.ProjectTo<TodoListItemDto>(_mappingConfigurationProvider).ToListAsync();
+                return await _context.TodoItem.ProjectTo<Result>(_mappingConfigurationProvider).ToListAsync();
             }
         }
-    }
-
-    public class TodoListItemDto
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public bool IsComplete { get; set; }
     }
 }

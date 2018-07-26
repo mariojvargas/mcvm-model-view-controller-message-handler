@@ -62,39 +62,44 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         //      http://jsonpatch.com/
         //      https://stackoverflow.com/questions/24241893/rest-api-patch-or-put
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchItem(long id, [FromBody] JsonPatchDocument<UpdateTodoItemDto> itemPatchDocument)
+        public async Task<IActionResult> PatchItem(long id, [FromBody] JsonPatchDocument<UpdateItem.Query> itemPatchDocument)
         {
             if (itemPatchDocument == null)
             {
                 return BadRequest();
             }
 
-            var todoItemDto = await _mediator.Send(new GetItemById.Query
+            // Step 1: Retrieve original copy
+            var originalItemDetail = await _mediator.Send(new GetItemById.Query
             {
                 Id = id
             });
 
-            if (todoItemDto == null)
+            if (originalItemDetail == null)
             {
                 return NotFound();
             }
 
-            var itemToUpdateDto = new UpdateTodoItemDto
+            // Step 2: Call ApplyTo() to modify original copy.
+            //         Note in this step we manually create the original copy
+            var itemToUpdateQuery = new UpdateItem.Query
             {
-                Name = todoItemDto.Name,
-                IsComplete = todoItemDto.IsComplete
+                Name = originalItemDetail.Name,
+                IsComplete = originalItemDetail.IsComplete
             };
-            itemPatchDocument.ApplyTo(itemToUpdateDto, ModelState);
+            itemPatchDocument.ApplyTo(itemToUpdateQuery, ModelState);
 
+            // Step 3: Ensure Model is still valid after applying changes
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            // Step 4: Persist modified copy
             var updatedItemDto = await _mediator.Send(new UpdateItem.Command
             {
                 Id = id,
-                Dto = itemToUpdateDto
+                ItemToUpdate = itemToUpdateQuery
             });
 
             if (updatedItemDto == null)
@@ -109,7 +114,7 @@ namespace TodoApiMediatR.Demo.Api.Controllers
         // Notice we're still using the same UpdateItem.Command and UpdateTodoItemDto as
         // in the PATCH implementation above
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateItem(long id, [FromBody] UpdateTodoItemDto itemToUpdateDto)
+        public async Task<IActionResult> UpdateItem(long id, [FromBody] UpdateItem.Query itemToUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -119,7 +124,7 @@ namespace TodoApiMediatR.Demo.Api.Controllers
             var updatedItemDto = await _mediator.Send(new UpdateItem.Command
             {
                 Id = id,
-                Dto = itemToUpdateDto
+                ItemToUpdate = itemToUpdateDto
             });
 
             if (updatedItemDto == null)

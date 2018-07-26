@@ -13,14 +13,32 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
 {
     public class UpdateItem
     {
-        public class Command : IRequest<ConfirmedUpdatedTodoItemDto>
+        public class Command : IRequest<Result>
         {
             [Required]
             public long Id { get; set; }
-            public UpdateTodoItemDto Dto { get; internal set; }
+            public Query ItemToUpdate { get; internal set; }
         }
 
-        public class CommandHandler : IRequestHandler<Command, ConfirmedUpdatedTodoItemDto>
+        public class Query
+        {
+            [Required]
+            [StringLength(256)]
+            public string Name { get; set; }
+
+            public bool IsComplete { get; set; }
+
+            public override string ToString() => $"{{Name = \"{Name}\"; IsComplete = {IsComplete}}}";
+        }
+
+        public class Result
+        {
+            public string Name { get; set; }
+
+            public bool IsComplete { get; set; }
+        }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly TodoDbContext _context;
             private readonly IMapper _mapper;
@@ -33,7 +51,7 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             }
 
-            public async Task<ConfirmedUpdatedTodoItemDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (!await _mediator.Send(new ItemExists.Query { Id = request.Id }))
                 {
@@ -44,26 +62,8 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 _context.Entry(todoItemEntityToUpdate).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<ConfirmedUpdatedTodoItemDto>(todoItemEntityToUpdate);
+                return _mapper.Map<Result>(todoItemEntityToUpdate);
             }
         }
-    }
-
-    public class UpdateTodoItemDto
-    {
-        [Required]
-        [StringLength(256)]
-        public string Name { get; set; }
-
-        public bool IsComplete { get; set; }
-
-        public override string ToString() => $"{{Name = \"{Name}\"; IsComplete = {IsComplete}}}";
-    }
-
-    public class ConfirmedUpdatedTodoItemDto
-    {
-        public string Name { get; set; }
-
-        public bool IsComplete { get; set; }
     }
 }

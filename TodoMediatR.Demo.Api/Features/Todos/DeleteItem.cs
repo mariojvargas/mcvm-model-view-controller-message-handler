@@ -10,7 +10,7 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
 {
     public class DeleteItem
     {
-        public class Query : IRequest<DeletedTodoItemDto>
+        public class Query : IRequest<Result>
         {
             public long Id { get; set; }
 
@@ -20,7 +20,13 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
             }
         }
 
-        public class QueryHandler : IRequestHandler<Query, DeletedTodoItemDto>
+        public class Result
+        {
+            public string Name { get; set; }
+            public bool IsComplete { get; set; }
+        }
+
+        public class QueryHandler : IRequestHandler<Query, Result>
         {
             private readonly TodoDbContext _context;
             private IMapper _mapper;
@@ -31,7 +37,7 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<DeletedTodoItemDto> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
                 var entity = await _context.TodoItem.SingleOrDefaultAsync(item => item.Id == request.Id);
                 if (entity == null)
@@ -42,14 +48,8 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 _context.TodoItem.Remove(entity);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<DeletedTodoItemDto>(entity);
+                return _mapper.Map<Result>(entity);
             }
         }
-    }
-
-    public class DeletedTodoItemDto
-    {
-        public string Name { get; set; }
-        public bool IsComplete { get; set; }
     }
 }

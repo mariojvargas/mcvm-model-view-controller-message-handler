@@ -10,7 +10,7 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
 {
     public class CreateItem
     {
-        public class Command : IRequest<CreatedTodoItemDto>
+        public class Command : IRequest<Result>
         {
             [Required]
             [StringLength(256)]
@@ -19,7 +19,14 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
             public override string ToString() => $"{{Name = \"{Name}\"}}";
         }
 
-        public class CommandHandler : IRequestHandler<Command, CreatedTodoItemDto>
+        public class Result
+        {
+            public long Id { get; set; }
+            public string Name { get; set; }
+            public bool IsComplete { get; set; }
+        }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly TodoDbContext _context;
             private readonly IMapper _mapper;
@@ -30,22 +37,15 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
                 _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<CreatedTodoItemDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 var itemToAdd = _mapper.Map<TodoItem>(request);
 
                 _context.TodoItem.Add(itemToAdd);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<CreatedTodoItemDto>(itemToAdd);
+                return _mapper.Map<Result>(itemToAdd);
             }
         }
-    }
-
-    public class CreatedTodoItemDto
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public bool IsComplete { get; set; }
     }
 }
