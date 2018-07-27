@@ -50,6 +50,146 @@ The application is served under the following URLs:
 * http://localhost:5000/api/todos/
 * https://localhost:5001/api/todos/
 
+## Sample Requests
+
+### GET - List All To-dos
+
+https://localhost:5001/api/todos/
+
+#### GET Request Body
+
+Empty request body
+
+#### GET All To-dos Response
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Attend and listen to my presentation",
+        "isComplete": true
+    },
+    {
+        "id": 2,
+        "name": "Study this code and play with it",
+        "isComplete": false
+    },
+    {
+        "id": 3,
+        "name": "Learn more about ASP.NET Core",
+        "isComplete": false
+    },
+    {
+        "id": 4,
+        "name": "Learn more about MediatR",
+        "isComplete": false
+    },
+    {
+        "id": 5,
+        "name": "Implement MVCM in your projects",
+        "isComplete": false
+    },
+]
+```
+
+### GET - Get To-do with ID 2
+
+https://localhost:5001/api/todos/2
+
+#### GET To-do Item Request Body
+
+Empty request body
+
+#### GET To-do Item Response
+
+```json
+{
+    "name": "Study this code",
+    "isComplete": false
+}
+```
+
+### POST - Create a new To-do item
+
+https://localhost:5001/api/todos/
+
+#### POST Request Body
+
+```json
+{
+    "name": "Tell everyone about MVCM"
+}
+```
+
+#### POST Response (HTTP Status 201 - Created)
+
+```json
+{
+    "id": 6,
+    "name": "Tell everyone about MVCM",
+    "isComplete": false
+}
+```
+
+### PATCH - Partial update a To-do item
+
+https://localhost:5001/api/todos/3
+
+#### Sample PATCH Request
+
+```json
+[
+    {
+        "op": "replace",
+        "path": "/isComplete",
+        "value": true
+    }
+]
+```
+
+#### PATCH Response (HTTP Status 200 - OK)
+
+```json
+{
+    "name": "Tell everyone about MVCM",
+    "isComplete": true
+}
+```
+
+### PUT - Update a To-do item (ID = 2)
+
+https://localhost:5001/api/todos/2
+
+#### Sample PUT Request Body
+
+```json
+{
+    "name": "Study this code and play with it",
+    "isComplete": false
+}
+```
+
+#### PUT Response
+
+```json
+{
+    "name": "Study this code and play with it",
+    "isComplete": false
+}
+```
+
+### DELETE - Delete To-do item with ID 1
+
+https://localhost:5001/api/todos/1
+
+#### Sample DELETE REquest Body
+
+This requires no request body
+
+#### DELETE Response
+
+Returns HTTP 204 - No Content
+
 ## Slides
 
 I presented the MVCM concept at [CONDG](http://condg.org/) on Juky 26, 2018 as a  lightning talk.
