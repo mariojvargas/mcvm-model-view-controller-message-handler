@@ -50,7 +50,14 @@ The application is served under the following URLs:
 * http://localhost:5000/api/todos/
 * https://localhost:5001/api/todos/
 
+## Slides
+
+I presented the MVCM concept at [CONDG](http://condg.org/) on Juky 26, 2018 as a  lightning talk.
+
+* [SlideShare Slides](https://www.slideshare.net/MarioVargas63/adding-another-m-to-mvc-mvcm-107535562)
+
 ## Additional Resources
+
 Here are some resources for learning more about MediatR and how to apply it in MVC.
 
 * [MediatR](https://github.com/jbogard/MediatR)
