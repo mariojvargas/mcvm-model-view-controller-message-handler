@@ -6,6 +6,12 @@ I considered other terms, such as "Mediated MVC", "Messaging-Based Model View Co
 
 Using the Mediator Pattern has its drawbacks. One of them can be clearly seen in my implementation of the HTTP PATCH method in the [TodosController.cs](TodoMediatR.Demo.Api/Controllers/TodosController.cs) file. There is a lot going on there, but I think it's a shortcoming in the design of the JsonPatch API in .NET Core. In addition, [see this somewhat relevant discussion](https://softwareengineering.stackexchange.com/questions/352796/is-cqrs-mediatr-worth-it-when-developing-an-asp-net-application) about the worthiness of using the [CQRS pattern](https://martinfowler.com/bliki/CQRS.html) and MediatR. And now that I mention CQRS, the file and naming convention used in this project under the [Features](TodoMediatR.Demo.Api/Features) directory are inspired by the CQRS pattern.
 
+## Slides
+
+I presented the MVCM concept at [CONDG](http://condg.org/) on July 26, 2018 as a  lightning talk.
+
+* [SlideShare Slides](https://www.slideshare.net/MarioVargas63/adding-another-m-to-mvc-mvcm-107535562)
+
 ## REST API Demo using MediatR
 
 The sample project in this repository is a demonstration of using the MediatR Nuget package with the classic TODO App, which lets you easily integrate the Mediator Design Pattern in an MVC application.
@@ -189,12 +195,6 @@ This requires no request body
 #### DELETE Response
 
 Returns HTTP 204 - No Content
-
-## Slides
-
-I presented the MVCM concept at [CONDG](http://condg.org/) on Juky 26, 2018 as a  lightning talk.
-
-* [SlideShare Slides](https://www.slideshare.net/MarioVargas63/adding-another-m-to-mvc-mvcm-107535562)
 
 ## Additional Resources
 
