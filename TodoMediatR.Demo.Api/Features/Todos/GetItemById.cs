@@ -37,6 +37,9 @@ namespace TodoApiMediatR.Demo.Api.Features.Todos
             public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
                 var entity = await _context.TodoItem.SingleOrDefaultAsync(item => item.Id == request.Id);
+                if (entity ==  null) {
+                    return null;
+                }
 
                 // See: https://stackoverflow.com/questions/36856073/the-instance-of-entity-type-cannot-be-tracked-because-another-instance-of-this-t
                 _context.Entry(entity).State = EntityState.Detached;
